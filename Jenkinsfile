@@ -17,11 +17,11 @@ pipeline {
         }
 
         stage('2. Maven 打包') {
-            steps {
-                // 在服务器上执行 Maven 打包并跳过测试（这行命令需要你服务器上装了 maven，或者使用 mvnw）
-                sh 'mvn clean package -DskipTests'
-            }
-        }
+                    steps {
+                        // 原来的 sh 'mvn clean package -DskipTests' 删掉，改成下面这行：
+                        sh 'docker run --rm -v /var/jenkins_home/.m2:/root/.m2 -v "$(pwd)":/usr/src/mymaven -w /usr/src/mymaven maven:3.8-openjdk-17 mvn clean package -DskipTests'
+                    }
+                }
 
         stage('3. 构建 Docker 镜像') {
             steps {
