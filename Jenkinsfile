@@ -2,11 +2,10 @@ pipeline {
     agent any
 
     environment {
-        // 【你可以根据需要修改这里】
-        IMAGE_NAME = "my-devops-app:latest"       // 要生成的 Docker 镜像名字
-        CONTAINER_NAME = "my-devops-container"   // 要运行的容器名字
-        PORT_MAPPING = "8082:8080"               // 宿主机 8082 端口映射容器内的 8080 端口
-    }
+            IMAGE_NAME = "tianji-school-app:latest"
+            CONTAINER_NAME = "tianji-school-container"
+            PORT_MAPPING = "8082:8080"
+        }
 
     stages {
         stage('1. 拉取代码') {
@@ -24,14 +23,14 @@ pipeline {
             }
         }
 
-        stage('3. 构建 Docker 镜像') {
+    stage('3. 构建 Docker 镜像') {
             steps {
                 // 调用服务器上的 Docker 命令，根据项目里的 Dockerfile 编译成镜像
                 sh "docker build -t ${IMAGE_NAME} ."
             }
         }
 
-        stage('4. 自动化部署') {
+    stage('4. 自动化部署') {
             steps {
                 // 如果服务器上已经有同名的老容器在跑，先强制删掉，然后用新镜像启动新容器
                 sh """
